@@ -5,8 +5,6 @@ import com.org.ricky.practice_jpa.model.NotFoundException;
 import com.org.ricky.practice_jpa.model.User;
 import com.org.ricky.practice_jpa.repository.UserRepository;
 import com.org.ricky.practice_jpa.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(User user) {
-		if (userRepository.findUserById(user.getId()) != null) {
+		if (userRepository.findUserByUsername(user.getUsername()) != null) {
 			throw new InvalidValueException("user has been created!");
 		}
 		return userRepository.save(user);
@@ -38,8 +36,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User readUserByUsername(String username) {
+		User user = userRepository.findUserByUsername(username);
+		if(user != null) {
+			return user;
+		}
+		throw new NotFoundException("user not founds");
+	}
+
+	@Override
 	public User updateUser(User user) {
-		if (userRepository.findUserById(user.getId()) == null) {
+		if (userRepository.findUserByUsername("kennedy") == null) {
 			throw new NotFoundException("user want to update is not found");
 		}
 		return userRepository.save(user);

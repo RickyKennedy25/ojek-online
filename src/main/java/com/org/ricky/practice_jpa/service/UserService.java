@@ -12,6 +12,7 @@ public interface UserService  {
 	User createUser(User user);
 	List<User> readAllUser();
 	User readUser(Integer id);
+	User readUserByUsername(String username);
 	User updateUser(User user);
 	ResponseEntity deleteUser(Integer id);
 
